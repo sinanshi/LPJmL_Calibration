@@ -1,0 +1,29 @@
+Parametrisation
+############
+############
+#1	Temperate Cereals	wheat
+#2	Rice			paddy rice
+#3	Maize			maize
+#4	Tropical Cereals	millet
+#5	Pulses			dry peas
+#6	Temperate Roots		sugar beet
+#7	Potatoes		potatoes
+#8	Tropical Roots		cassava
+#9	Sunflower		sunflower
+#10	Soybeans		soybeans
+#11	Groundnuts		groundnuts
+#12	Rapeseed		rapeseed
+#13	Sugar Cane		sugar cane
+#14	Others			C3/C4 grass
+#15	Manage Grasslands	C3/C4 grass 
+#16	Bioenergy Grass		C4 grass
+#17	Bioenergy Tree		Eukaliptus and poplar
+#18	Citrus			orange
+#19	Non Citrus Orchards	apples
+#20	Date Palm		dates
+#21	Olives			olives
+#22	Nuts Trees		almonds
+#23	Grapes			grapes
+#24	Vegetables		C3 grass
+#25	Cotton			cotton seed (or lint?)
+#26	Fodder grass		C3 grass
