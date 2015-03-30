@@ -9,16 +9,16 @@ selectcountryname[i]<-as.character(
 
 
 
-# lpj.area<-readCalibOutputArea(dir=lpjoutput.path,
-# 		ncells=ncell,
-# 		nbands=nbands,
-# 		startyear=baseyear,
-# 		year=fao.years,
-# 		RUN)
-# 
-# lpj.area<-lpj.area[BAND_EXAM$lpj,,]
-# lpj.area<-lpj.area[,country.selected+1,]
-# lpj.area<-rowMeans(lpj.area,dims=2)
+lpj.area<-readCalibOutputArea(dir=lpjoutput.path,
+		ncells=ncell,
+		nbands=nbands,
+		startyear=baseyear,
+		year=fao.years,
+		RUN)
+
+lpj.area<-lpj.area[BAND_EXAM$lpj,,]
+lpj.area<-lpj.area[,country.selected+1,]
+lpj.area<-rowMeans(lpj.area,dims=2)
 
 
 
@@ -31,7 +31,7 @@ for(b in 1:length(BAND_EXAM$lpj)){
 		mv[(cow==(country.selected[i]))]<-best_yields[b,i]
 		mv.fao[(cow==(country.selected[i]))]<-fao.yields[b,i]
 		mv.kest[(cow==(country.selected[i]))]<-k_est[b,i]
-# 		mv.area[(cow==(country.selected[i]))]<-lpj.area[b,i]
+ 		mv.area[(cow==(country.selected[i]))]<-lpj.area[b,i]
 	}
 	maxyield<-max(mv,mv.fao,na.rm=T)
 	map<-map.build(mv)
@@ -93,7 +93,7 @@ index.far<-c(index.far,which(best_yields[b,]/fao.yields[b,]<0.5))
  index.big<-which(circle.radius>=0.5*mean(circle.radius[which(circle.radius!=0)]))
   index.put<-intersect(index.far,index.big)
 #   print(index.far)
-  print(index.put)
+ # print(index.put)
   if(length(index.put)!=0){
   text(fao.yields[b,index.put],best_yields[b,index.put]-0.1*(max(best_yields[b,],na.rm=T)),
 selectcountryname[index.put] , font=1)
@@ -126,15 +126,15 @@ selectcountryname[index.put] , font=1)
   image(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
 	     col=rainbow(11),ylim=c(19,51),axes=F)
   box()
-  map(add=T)
+  #map(add=T)
   title("LPJmL best k_est")
-  image.plot(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
-	     col=rainbow(11),ylim=c(19,51),axes=F,legend.only=T)
+  #image.plot(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
+	#     col=rainbow(11),ylim=c(19,51),axes=F,legend.only=T)
   
   screen(ind2[1])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
   image(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),ylim=c(19,51),axes=F)
-  map(add=T)
+  #map(add=T)
   box()
   title(paste("LPJmL yields",eval.years))
 #   #invisible(lapply(country.line,masklines05))
@@ -142,10 +142,10 @@ selectcountryname[index.put] , font=1)
   screen(ind2[2])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
   image(x=Longitude,y=Latitude,map.fao,col=col.yields,zlim=c(0,maxyield),ylim=c(19,51),axes=F)
-  map(add=T)
+  #map(add=T)
   box()
   title(paste("FAO yields",eval.years))
-  image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F)
+  #image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F)
  
 
   close.screen( all=TRUE)

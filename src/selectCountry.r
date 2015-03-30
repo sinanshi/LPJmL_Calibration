@@ -3,9 +3,7 @@
 #
 HEADER_SIZE<-43
 PROPORTION<-0.9# Threshold, e.g. 0.9 means lower than 90% will be excluded
-cowfile.global<-"/media/sinan/SSN/OT-Med/workspace/LPJmL/lpj_calibration/lpjinputs/cow_mg_2006.bin"
-cowfile.local<-"/media/sinan/SSN/OT-Med/workspace/LPJmL/lpj_calibration/lpjinputs/med/cow_mg_2006.bin"
-countryfao.path<-"/media/sinan/SSN/OT-Med/workspace/LPJmL/lpj_calibration/FAO/"
+
 
 # read.input.header<-function(filename){
 #     file.in<-file(filename,"rb")
