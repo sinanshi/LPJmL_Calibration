@@ -107,14 +107,14 @@ for(i in 1:RUN)
 	delta[,,i]<-abs(lpj.yields[,,i]-fao.yields)
 	
 best_laimax<-array(NA,c( length(BAND_EXAM$lpj),length(country.selected)))
-best_yields<-array(NA, dim(k_est))
+best_yields<-array(NA, dim(best_laimax))
 
 for(c in 1:length(country.selected)){
 	for(b in 1:length(BAND_EXAM$lpj)){
 		p<-which(delta[b,c,]==min(delta[b,c,]))
-		if(length(p)!=0) k_est[b,c]<-p[1]
+		if(length(p)!=0) best_laimax[b,c]<-p[1]
 		else best_laimax[b,c]<-NA		
-		best_yields[b,c]<-lpj.yields[b,c,k_est[b,c]]
+		best_yields[b,c]<-lpj.yields[b,c,best_laimax[b,c]]
 	}
 }
 	
@@ -163,4 +163,4 @@ for(c in 1:length(country.selected)){
 # close(zz)
 
 
-source("src/plot.r")
+#source("src/plot.r")
