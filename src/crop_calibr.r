@@ -9,7 +9,7 @@ fao.years <- c(2000:2009)#chose the years for fao data(Notice, the total years o
 experiment <- "revision Nela new crops"
 nbands <- 52
 CALI_TYPE<-"ALL"#IRRIG, RAINF
-RUN<-11
+RUN<-7
 NOIRRIG<-F
 
 nwr <- 10 # MAgPIE world regions10
@@ -35,13 +35,13 @@ FAO_Item<-c("Wheat", "Rice, paddy", "Maize", "Millet","Peas, dry", "Sugar beet",
 	  "Sunflower seed","Soybeans", "Groundnuts, with shell","Rapeseed", "Sugar cane", NA,NA,NA,NA,
 	  "Oranges","Apples","Dates","Olives","Almonds, with shell", "Grapes", NA, NA, NA)
 
-BAND_RAINF<-c(1:4) #make 4 crops for test first
-BAND_IRRG<-c(27:30)
+BAND_RAINF<-c(1:26) # this varible if only for trees. Here they are dummy, the tree calibrations are not correct
+BAND_IRRG<-c(27:52)
 BAND_ALL<-c(BAND_RAINF,BAND_IRRG)
 
 BAND_EXAM<-list()
-BAND_EXAM$lpj<-c(1:4)
-BAND_EXAM$fao<-c(1:4)
+BAND_EXAM$lpj<-c(1:13)
+BAND_EXAM$fao<-c(1:13)
 
 
 
@@ -117,39 +117,45 @@ for(c in 1:length(country.selected)){
 		best_yields[b,c]<-lpj.yields[b,c,best_laimax[b,c]]
 	}
 }
-	
-	
-	
-	
-# #write tree density table
-# treedens<-read.csv(paste(src.path,"tree_dens.csv",sep=""),sep="\t",header=F)
-# treedens<-t(treedens)
-# out<-array("NA",c(length(country.selected),RUN+4))
-# for(i in 1:(length(BAND_EXAM$lpj-1))){
-# 	out[,2:(RUN+1)]<-round(lpj.yields[i,,],digits=2)
-# 	out[,1]<-as.vector(country.key$Country_MAgPIE[country.selected+1])
-# 	out[,(RUN+2)]<-round(fao.yields[i,],digits=2)
-# 	out[,(RUN+3)]<-round(best_yields[i,],digits=2)
-# 	out[,(RUN+4)]<-round(digits=3,treedens[k_est[i,],i+1])
-# 	colnames(out)<-c("country",round(treedens[1:11,(i+1)],digits=3),"fao","yields_chosen","k_est")
 
-# 	write.csv(file=paste("yields_",cropnames[BAND_EXAM$lpj[i]],".csv",sep=""),out)
 
+
+#create laimax table, like treedens
+
+
+treedens<-t(array(c(1:RUN),c(RUN,length(BAND_EXAM$lpj))))
+	
+	
+	
+#write tree density table
+#treedens<-read.csv(paste(src.path,"tree_dens.csv",sep=""),sep="\t",header=F)
+#treedens<-t(treedens)
+#out<-array("NA",c(length(country.selected),RUN+4))
+#for(i in 1:(length(BAND_EXAM$lpj-1))){
+#	out[,2:(RUN+1)]<-round(lpj.yields[i,,],digits=2)
+#	out[,1]<-as.vector(country.key$Country_MAgPIE[country.selected+1])
+#	out[,(RUN+2)]<-round(fao.yields[i,],digits=2)
+#	out[,(RUN+3)]<-round(best_yields[i,],digits=2)
+#	out[,(RUN+4)]<-round(digits=3,treedens[k_est[i,],i+1])
+#	colnames(out)<-c("country",round(treedens[1:11,(i+1)],digits=3),"fao","yields_chosen","k_est")
+
+#	write.csv(file=paste("yields_",cropnames[BAND_EXAM$lpj[i]],".csv",sep=""),out)
+
+#}
+
+#write .par file
+
+#a<-read.csv("src/laimax.par",sep="\t")
+#output<-data.frame(a[1:2])
+#for(b in 1:length(BAND_EXAM$lpj)){
+#	bandcountry<-array(-1,197)
+#	for(i in 1:length(country.selected)){
+#		bandcountry[country.selected[i]+1]<-as.numeric(treedens[k_est[b,i],(b+1)])
+#	}
+#	bandcountry[is.na(bandcountry)]<- -1
+#	output<-data.frame(output,bandcountry)
 # }
-
-# #write .par file
-
-# a<-read.csv("src/laimax.par",sep="\t")
-# output<-data.frame(a[1:2])
-# for(b in 1:length(BAND_EXAM$lpj)){
-# 	bandcountry<-array(-1,197)
-# 	for(i in 1:length(country.selected)){
-# 		bandcountry[country.selected[i]+1]<-as.numeric(treedens[k_est[b,i],(b+1)])
-# 	}
-# 	bandcountry[is.na(bandcountry)]<- -1
-# 	output<-data.frame(output,bandcountry)
-#  }
-# zz<-file(paste("manage_tree", ".par",sep=""),"wb")
+# zz<-file(paste("_lpjlaimax_output", ".par",sep=""),"wb")
 # writeLines("#include \"../include/managepar.h\"",zz,useBytes=FALSE)
 # writeLines("197",zz,useBytes=FALSE)
 # for(i in 1:dim(output)[1]){
@@ -163,4 +169,4 @@ for(c in 1:length(country.selected)){
 # close(zz)
 
 
-#source("src/plot.r")
+source("src/plot.r")

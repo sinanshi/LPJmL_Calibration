@@ -1,8 +1,17 @@
 library("maps")
 library("fields")
+library("rgeos")
+library("rgdal")
+
+
+
+country_border<-readOGR(paste(src.path,"country_polygon/",sep=""),layer="ne_10m_admin_0_countries")
+
+
+
 Longitude<<-seq(WEST,EAST,RES)
 Latitude<<-seq(SOUTH,NORTH,RES)	
-treedens<-array(c(1:7),c(100,7))
+#treedens<-array(c(1:7),c(11,100))# nasty patch for crops
 selectcountryname<-vector()
 for(i in 1:length(country.selected))
 selectcountryname[i]<-as.character(
@@ -96,8 +105,8 @@ index.far<-which(best_yields[b,]/fao.yields[b,]>2 )
 #index.big<-which(circle.radius>=0.5*mean(circle.radius[which(circle.radius!=0)]))
 #index.put<-intersect(index.far,index.big)
 index.put<-index.far
-print(index.far)
-print(index.put)
+#print(index.far)
+#print(index.put)
   if(length(index.put)!=0){
       text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
            selectcountryname[index.put] , cex=.6,col="blue")
@@ -136,7 +145,7 @@ index.put<-index.far # redundent just for keeping the format
   image(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
 	     col=col.yields,ylim=c(19,51),axes=F)
   box()
-  map(add=T)
+  plot(country_border,add=T)
   title("LPJmL best LAIMAX")
   image.plot(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
 	     col=col.yields,ylim=c(19,51),axes=F,legend.only=T,horizontal=F,smallplot=c(.9,.92,0.04,.85))
@@ -144,7 +153,7 @@ index.put<-index.far # redundent just for keeping the format
   screen(ind2[1])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
   image(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),ylim=c(19,51),axes=F)
-  map(add=T)
+  plot(country_border,add=T)
   title(paste("LPJmL Yields [t FM/ha]",eval.years))
   box()
   image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F,horizontal=F,smallplot=c(.9,.92,0.04,.85))
@@ -153,7 +162,7 @@ index.put<-index.far # redundent just for keeping the format
   screen(ind2[2])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
   image(x=Longitude,y=Latitude,map.fao,col=col.yields,zlim=c(0,maxyield),ylim=c(19,51),axes=F)
-  map(add=T)
+  plot(country_border,add=T)
   box()
   title(paste("FAO Yields [t FM/ha]",eval.years))
   image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F,horizontal=F,legend.mar=0,

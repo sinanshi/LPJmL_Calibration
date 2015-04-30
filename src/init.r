@@ -9,7 +9,7 @@ countryfao.path<-paste(wkdir,"FAO/",sep="")
 
 #crop_calibr.r path setup
 lpjinput.path <- paste(wkdir,"lpjinputs/med/",sep="")
-lpjoutput.path <- paste(wkdir,"lpjoutputs/med/",sep="")
+lpjoutput.path <- paste(wkdir,"lpjoutputs/med_crops/",sep="")
 output.path <-paste(wkdir,"lpjoutputs/med/",sep="")
 fao.path<-paste(wkdir,"FAO/",sep="")
 src.path<-paste(wkdir,"src/",sep="")
@@ -18,5 +18,5 @@ plot.path<-paste(wkdir,"plots/",sep="")
 
 
 source(paste(wkdir,"src/crop_calibr.r",sep=""))
-
+#source(paste(wkdir,"src/tree_calibr.r",sep=""))
 

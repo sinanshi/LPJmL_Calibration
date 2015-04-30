@@ -21,12 +21,6 @@ nreg <- 197
 nband.date <- 22   # no of bands in sdate/hdate files
 eval.years <- paste(startyear1,"-",endyear1,sep="")
 
-lpjinput.path <- "/media/sinan/SSN/OT-Med/workspace/LPJmL/tree_density/lpj_calibration/lpjinputs/med/"
-lpjoutput.path <- "/media/sinan/SSN/OT-Med/workspace/LPJmL/tree_density/lpj_calibration/lpjoutputs/med/"
-output.path <-"/media/sinan/SSN/OT-Med/workspace/LPJmL/tree_density/lpj_calibration/lpjoutputs/med/"
-fao.path<-"/media/sinan/SSN/OT-Med/workspace/LPJmL/tree_density/lpj_calibration/FAO/"
-src.path<-"/media/sinan/SSN/OT-Med/workspace/LPJmL/tree_density/lpj_calibration/src/"
-plot.path<-"/media/sinan/SSN/OT-Med/workspace/LPJmL/tree_density/lpj_calibration/plots/"
 
 pxlim<-c(-15,52)# for mediterrian grid
 pylim<-c(-5,55)
@@ -144,7 +138,7 @@ for(i in 1:(length(BAND_EXAM$lpj-1))){
 
 #write .par file
 
-a<-read.csv("src/laimax.par",sep="\t")
+a<-read.csv(paste(src.path,"laimax.par",sep=""),sep="\t")
 output<-data.frame(a[1:2])
 for(b in 1:length(BAND_EXAM$lpj)){
 	bandcountry<-array(-1,197)
@@ -154,7 +148,7 @@ for(b in 1:length(BAND_EXAM$lpj)){
 	bandcountry[is.na(bandcountry)]<- -1
 	output<-data.frame(output,bandcountry)
  }
-zz<-file(paste("manage_tree", ".par",sep=""),"wb")
+zz<-file(paste(plot.path,"manage_tree", ".par",sep=""),"wb")
 writeLines("#include \"../include/managepar.h\"",zz,useBytes=FALSE)
 writeLines("197",zz,useBytes=FALSE)
 for(i in 1:dim(output)[1]){
@@ -168,4 +162,4 @@ for(i in 1:dim(output)[1]){
 close(zz)
 
 
-source("src/plot.r")
+source(paste(src.path,"plot_tree.r",sep=""))
