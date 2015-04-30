@@ -109,14 +109,14 @@ index.put<-index.far
 #print(index.put)
   if(length(index.put)!=0){
       text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
-           selectcountryname[index.put] , cex=.6,col="blue")
+           selectcountryname[index.put] , cex=.6)
   }
 
 index.far<-which(best_yields[b,]/fao.yields[b,]<0.5)
 index.put<-index.far # redundent just for keeping the format
   if(length(index.put)!=0){
       text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
-           selectcountryname[index.put] , cex=.6,col="red")
+           selectcountryname[index.put] , cex=.6)
   }
 
 
