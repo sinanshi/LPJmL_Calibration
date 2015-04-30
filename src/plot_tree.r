@@ -31,7 +31,6 @@ lpj.area<-lpj.area[,country.selected+1,]
 lpj.area<-rowMeans(lpj.area,dims=2)
 
 
-
 for(b in 1:length(BAND_EXAM$lpj)){
 	mv<-array(NA, length(cow))
 	mv.fao<-array(NA, length(cow))
@@ -50,8 +49,7 @@ for(b in 1:length(BAND_EXAM$lpj)){
 
 
 
-
-filename <- paste(plot.path,"lpjmlcalib_vs_fao_all_",cropnames[BAND_EXAM$lpj[b]],".png",sep="")
+  filename <- paste(plot.path,"lpjmlcalib_vs_fao_all_",cropnames[BAND_EXAM$lpj[b]],".png",sep="")
   png(filename,height=3.4*300,width=5*300,res=300,pointsize=6,type="cairo")
   par(oma=c(0,0,0,0))
   # first divide up the figure region
@@ -66,7 +64,9 @@ filename <- paste(plot.path,"lpjmlcalib_vs_fao_all_",cropnames[BAND_EXAM$lpj[b]]
   image(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield))#,yaxt="n",xaxt="n")
    #axis(2,at=3)
   
-  plot(fao.yields[b,],best_yields[b,],main="",xlab="", ylab="",col="green",pch=3,lwd=0.8,yaxt="n")
+  plot(fao.yields[b,],best_yields[b,],
+    main="",xlab="", ylab="",col="white",pch=3,lwd=0.8,yaxt="n")
+  
    onetoone<-vector()
    onetoone[1] <- min(best_yields[b,],fao.yields[b,],na.rm=T)
    onetoone[2] <- max(best_yields[b,],fao.yields[b,],na.rm=T)
@@ -80,47 +80,39 @@ filename <- paste(plot.path,"lpjmlcalib_vs_fao_all_",cropnames[BAND_EXAM$lpj[b]]
   
   
   
-  
-  
+
   
   circle.radius<-lpj.area[b,]/max(lpj.area[b,])*max(fao.yields[b,],na.rm=T)/5
  #   circle.radius <- (region.total.croparea[,band]/max(region.total.croparea[,band])*max(fao.yields[b,])/5)
-  circle.radius[is.infinite(circle.radius)] <- 0
-  circle.radius[circle.radius<0] <- 0
+  circle.radius[is.infinite(circle.radius)] <- NA
+  circle.radius[circle.radius<=0] <- NA
   symbols(fao.yields[b,],best_yields[b,],circles=circle.radius,add=T,cex=0.5,inches=F)
-
-points(fao.yields[b,best_yields[b,]>fao.yields[b,]],best_yields[b,best_yields[b,]>fao.yields[b,]],
+points(fao.yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],best_yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],
+  col="green", pch=3, lwd=0.8)
+points(fao.yields[b,(best_yields[b,]>fao.yields[b,] & fao.yields[b,]!=0 & best_yields[b,]!=0)],
+  best_yields[b,best_yields[b,]>fao.yields[b,] & fao.yields[b,]!=0 & best_yields[b,]!=0],
        col="green",pch=3,lwd=0.8)
-points(fao.yields[b,best_yields[b,]/fao.yields[b,]>2],best_yields[b,best_yields[b,]/fao.yields[b,]>2],
+points(fao.yields[b,best_yields[b,]/fao.yields[b,]>2 & fao.yields[b,]!=0 & best_yields[b,]!=0],
+  best_yields[b,best_yields[b,]/fao.yields[b,]>2 & fao.yields[b,]!=0 & best_yields[b,]!=0],
        col="blue",pch=3,lwd=0.8)
-points(fao.yields[b,best_yields[b,]/fao.yields[b,]<0.5],best_yields[b,best_yields[b,]/fao.yields[b,]<0.5],
+points(fao.yields[b,best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & best_yields[b,]!=0],
+  best_yields[b,best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & best_yields[b,]!=0],
        col="red",pch=3,lwd=0.8)
 #points(fao.yields[b,best_yields[b,]==0],best_yields[b,best_yields[b,]==0],
-#       col="orange",pch=3,lwd=0.8)
+#       col="white",pch=3,lwd=0.8)
 
 #put text to all the countries that are too far
 #index.far<-which(abs(best_yields[b,]-fao.yields[b,])>0.4*max(fao.yields[b,],na.rm=T))
-index.far<-which(best_yields[b,]/fao.yields[b,]>2 )
-#index.far<-c(index.far,which(best_yields[b,]/fao.yields[b,]<0.5))
+index.far<-which(best_yields[b,]/fao.yields[b,]>2 &fao.yields[b,]!=0 & best_yields[b,]!=0 )
+index.far<-c(index.far,which(best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & best_yields[b,]!=0))
 #index.big<-which(circle.radius>=0.5*mean(circle.radius[which(circle.radius!=0)]))
 #index.put<-intersect(index.far,index.big)
 index.put<-index.far
-#print(index.far)
-#print(index.put)
+
   if(length(index.put)!=0){
       text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
            selectcountryname[index.put] , cex=.6)
   }
-
-index.far<-which(best_yields[b,]/fao.yields[b,]<0.5)
-index.put<-index.far # redundent just for keeping the format
-  if(length(index.put)!=0){
-      text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
-           selectcountryname[index.put] , cex=.6)
-  }
-
-
-
 
 
 
