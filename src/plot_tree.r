@@ -148,7 +148,7 @@ index.put<-index.far # redundent just for keeping the format
   plot(country_border,add=T)
   title("LPJmL best k_est [indv/m^2]")
   image.plot(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
-	     col=col.yields,ylim=c(19,51),axes=F,legend.only=T,horizontal=F,smallplot=c(.9,.92,0.04,.85))
+	     col=col.yields,ylim=c(19,51),axes=F,legend.only=T,horizontal=F,smallplot=c(.87,.89,0.04,.85))
   
   screen(ind2[1])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
@@ -156,7 +156,8 @@ index.put<-index.far # redundent just for keeping the format
   plot(country_border,add=T)
   title(paste("LPJmL Yields [t FM/ha]",eval.years))
   box()
-  image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F,horizontal=F,smallplot=c(.9,.92,0.04,.85))
+  image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F,horizontal=F,
+             smallplot=c(.87,.89,0.04,.85))
 #   #invisible(lapply(country.line,masklines05))
 #   #invisible(lapply(land.line,masklines1))
   screen(ind2[2])
@@ -166,7 +167,7 @@ index.put<-index.far # redundent just for keeping the format
   box()
   title(paste("FAO Yields [t FM/ha]",eval.years))
   image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F,horizontal=F,legend.mar=0,
-             legend.line=0,legend.shrink=0.7,lwd=0.1,smallplot=c(.9,.92,0.04,.85))
+             legend.line=0,legend.shrink=0.7,lwd=0.1,smallplot=c(.87,.89,0.04,.85))
   close.screen( all=TRUE)
   dev.off()
   }
