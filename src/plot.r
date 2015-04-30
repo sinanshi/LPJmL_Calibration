@@ -1,7 +1,17 @@
+library("maps")
+library("fields")
+library("rgeos")
+library("rgdal")
+
+
+
+country_border<-readOGR(paste(src.path,"country_polygon/",sep=""),layer="ne_10m_admin_0_countries")
+
+
 
 Longitude<<-seq(WEST,EAST,RES)
 Latitude<<-seq(SOUTH,NORTH,RES)	
-
+#treedens<-array(c(1:7),c(11,100))# nasty patch for crops
 selectcountryname<-vector()
 for(i in 1:length(country.selected))
 selectcountryname[i]<-as.character(
@@ -9,16 +19,16 @@ selectcountryname[i]<-as.character(
 
 
 
-# lpj.area<-readCalibOutputArea(dir=lpjoutput.path,
-# 		ncells=ncell,
-# 		nbands=nbands,
-# 		startyear=baseyear,
-# 		year=fao.years,
-# 		RUN)
-# 
-# lpj.area<-lpj.area[BAND_EXAM$lpj,,]
-# lpj.area<-lpj.area[,country.selected+1,]
-# lpj.area<-rowMeans(lpj.area,dims=2)
+lpj.area<-readCalibOutputArea(dir=lpjoutput.path,
+		ncells=ncell,
+		nbands=nbands,
+		startyear=baseyear,
+		year=fao.years,
+		RUN)
+
+lpj.area<-lpj.area[BAND_EXAM$lpj,,]
+lpj.area<-lpj.area[,country.selected+1,]
+lpj.area<-rowMeans(lpj.area,dims=2)
 
 
 
@@ -30,8 +40,8 @@ for(b in 1:length(BAND_EXAM$lpj)){
 	for(i in 1:length(country.selected)){
 		mv[(cow==(country.selected[i]))]<-best_yields[b,i]
 		mv.fao[(cow==(country.selected[i]))]<-fao.yields[b,i]
-		mv.kest[(cow==(country.selected[i]))]<-k_est[b,i]
-# 		mv.area[(cow==(country.selected[i]))]<-lpj.area[b,i]
+		mv.kest[(cow==(country.selected[i]))]<-best_laimax[b,i]
+ 		mv.area[(cow==(country.selected[i]))]<-lpj.area[b,i]
 	}
 	maxyield<-max(mv,mv.fao,na.rm=T)
 	map<-map.build(mv)
@@ -53,17 +63,18 @@ filename <- paste(plot.path,"lpjmlcalib_vs_fao_all_",cropnames[BAND_EXAM$lpj[b]]
 
   screen(ind[1])
   par(mar=c(3,2.8,3,3.5),cex=0.9)
-#     image(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield))
+  image(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield))#,yaxt="n",xaxt="n")
+   #axis(2,at=3)
   
-  plot(fao.yields[b,],best_yields[b,],main="",xlab="", ylab="",col="green",pch=3,lwd=0.8)
+  plot(fao.yields[b,],best_yields[b,],main="",xlab="", ylab="",col="green",pch=3,lwd=0.8,yaxt="n")
    onetoone<-vector()
    onetoone[1] <- min(best_yields[b,],fao.yields[b,],na.rm=T)
    onetoone[2] <- max(best_yields[b,],fao.yields[b,],na.rm=T)
    tit <- cropnames[BAND_EXAM$lpj[b]]
-#   plot(fao.yields[b,],reg.yield,main="",xlab="",
-#        ylab="",col="green",pch=3,lwd=0.8)
-   title(main=tit,xlab=list("FAO yields [t FM/ha]"),ylab=list("LPJmL yields [t FM/ha]"),line=1.5)
-  
+   #plot(fao.yields[b,],reg.yield,main="",xlab="",
+   #     ylab="",col="green",pch=3,lwd=0.8)
+   title(main=tit,xlab=list("FAO yields [t FM/ha]"),ylab=list("LPJmL yields [t FM/ha]"),line=1.7)
+   axis(2, mgp=c(3, .5, 0))#adjust the y axis label slightly right
 
   
   
@@ -73,7 +84,7 @@ filename <- paste(plot.path,"lpjmlcalib_vs_fao_all_",cropnames[BAND_EXAM$lpj[b]]
   
   
   circle.radius<-lpj.area[b,]/max(lpj.area[b,])*max(fao.yields[b,],na.rm=T)/5
-#    circle.radius <- (region.total.croparea[,band]/max(region.total.croparea[,band])*max(fao.yields[b,])/5)
+ #   circle.radius <- (region.total.croparea[,band]/max(region.total.croparea[,band])*max(fao.yields[b,])/5)
   circle.radius[is.infinite(circle.radius)] <- 0
   circle.radius[circle.radius<0] <- 0
   symbols(fao.yields[b,],best_yields[b,],circles=circle.radius,add=T,cex=0.5,inches=F)
@@ -84,36 +95,44 @@ points(fao.yields[b,best_yields[b,]/fao.yields[b,]>2],best_yields[b,best_yields[
        col="blue",pch=3,lwd=0.8)
 points(fao.yields[b,best_yields[b,]/fao.yields[b,]<0.5],best_yields[b,best_yields[b,]/fao.yields[b,]<0.5],
        col="red",pch=3,lwd=0.8)
-points(fao.yields[b,best_yields[b,]==0],best_yields[b,best_yields[b,]==0],
-       col="orange",pch=3,lwd=0.8)
+#points(fao.yields[b,best_yields[b,]==0],best_yields[b,best_yields[b,]==0],
+#       col="orange",pch=3,lwd=0.8)
 
-#  index.far<-which(abs(best_yields[b,]-fao.yields[b,])>0.4*max(fao.yields[b,],na.rm=T))
+#put text to all the countries that are too far
+#index.far<-which(abs(best_yields[b,]-fao.yields[b,])>0.4*max(fao.yields[b,],na.rm=T))
 index.far<-which(best_yields[b,]/fao.yields[b,]>2 )
-index.far<-c(index.far,which(best_yields[b,]/fao.yields[b,]<0.5))
- index.big<-which(circle.radius>=0.5*mean(circle.radius[which(circle.radius!=0)]))
-  index.put<-intersect(index.far,index.big)
-#   print(index.far)
-  print(index.put)
+#index.far<-c(index.far,which(best_yields[b,]/fao.yields[b,]<0.5))
+#index.big<-which(circle.radius>=0.5*mean(circle.radius[which(circle.radius!=0)]))
+#index.put<-intersect(index.far,index.big)
+index.put<-index.far
+#print(index.far)
+#print(index.put)
   if(length(index.put)!=0){
-  text(fao.yields[b,index.put],best_yields[b,index.put]-0.1*(max(best_yields[b,],na.rm=T)),
-selectcountryname[index.put] , font=1)
+      text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
+           selectcountryname[index.put] , cex=.6,col="blue")
+  }
+
+index.far<-which(best_yields[b,]/fao.yields[b,]<0.5)
+index.put<-index.far # redundent just for keeping the format
+  if(length(index.put)!=0){
+      text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
+           selectcountryname[index.put] , cex=.6,col="red")
   }
 
 
 
 
 
-   legend("bottomright",legend=c("acceptable","strong overestimation (>200%)","underestimation (<50%)","no yields"),col=c("green","blue","red","orange"),pch=1,pt.lwd=1,pt.cex=1,cex=0.7)
+
+#   legend("bottomright",legend=c("acceptable","strong overestimation (>200%)","underestimation (<50%)","no yields"),col=c("green","blue","red","orange"),pch=1,pt.lwd=1,pt.cex=1,cex=0.7)
   o<-fao.yields[b,!is.na(fao.yields[b,])]
   p<-best_yields[b,!is.na(fao.yields[b,])]
   o<-o[ p!=0]
   p<-p[p!=0]
-
-    wiltext <- sprintf("Willmott: %g",round(Willmott(o,p),2))
-    text(max(o)*0.6/3,max(p),labels=wiltext)
-    eftext <- sprintf("EF: %g",round(EF(o,p),2))
-    text(max(o)*2/3,max(p),labels=eftext)
   
+  wiltext <- sprintf("Willmott: %g",round(Willmott(o,p),2))
+  eftext <- sprintf("EF: %g",round(EF(o,p),2))
+  mtext(paste(wiltext,eftext,sep="                      "),side=3)
 
 
 
@@ -124,30 +143,30 @@ selectcountryname[index.put] , font=1)
   screen(ind[2])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
   image(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
-	     col=rainbow(11),ylim=c(19,51),axes=F)
+	     col=col.yields,ylim=c(19,51),axes=F)
   box()
-  map(add=T)
-  title("LPJmL best k_est")
+  plot(country_border,add=T)
+  title("LPJmL best LAIMAX")
   image.plot(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
-	     col=rainbow(11),ylim=c(19,51),axes=F,legend.only=T)
+	     col=col.yields,ylim=c(19,51),axes=F,legend.only=T,horizontal=F,smallplot=c(.9,.92,0.04,.85))
   
   screen(ind2[1])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
   image(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),ylim=c(19,51),axes=F)
-  map(add=T)
+  plot(country_border,add=T)
+  title(paste("LPJmL Yields [t FM/ha]",eval.years))
   box()
-  title(paste("LPJmL yields",eval.years))
+  image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F,horizontal=F,smallplot=c(.9,.92,0.04,.85))
 #   #invisible(lapply(country.line,masklines05))
 #   #invisible(lapply(land.line,masklines1))
   screen(ind2[2])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
   image(x=Longitude,y=Latitude,map.fao,col=col.yields,zlim=c(0,maxyield),ylim=c(19,51),axes=F)
-  map(add=T)
+  plot(country_border,add=T)
   box()
-  title(paste("FAO yields",eval.years))
-  image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F)
- 
-
+  title(paste("FAO Yields [t FM/ha]",eval.years))
+  image.plot(x=Longitude,y=Latitude,map,col=col.yields,zlim=c(0,maxyield),legend.only=T,axes=F,horizontal=F,legend.mar=0,
+             legend.line=0,legend.shrink=0.7,lwd=0.1,smallplot=c(.9,.92,0.04,.85))
   close.screen( all=TRUE)
   dev.off()
   }

@@ -127,12 +127,12 @@ return(map)
 
 
 read.output.harvest<-function(filename, ncells, nbands, startyear, year,data.size=4, band="ALL", par=1){
-	nyears<-file.info(filename)$size/ncells/nbands/data.size
+        nyears<-file.info(filename)$size/ncells/nbands/data.size
 	if(nyears/as.integer(nyears)!=1) stop("nyears:",nyears, " error\n")
 	if(band[1]=="ALL") band<-c(1:nbands)
 	harvest<-list()
 	data<-array(NA, c(ncells, length(band), length(year)))
-
+        
 	fn<-file(filename,"rb")
 	for(y in 1:length(year)){
 		for(b in 1:length(band)){
