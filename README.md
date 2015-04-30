@@ -4,3 +4,4 @@
 
 * change the path in src/init.r
 * run source("src/init.r")
+* manually copy lpjoutpus/ to the repository directory
