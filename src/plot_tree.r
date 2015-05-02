@@ -105,17 +105,28 @@ points(fao.yields[b,best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & bes
 #index.far<-which(abs(best_yields[b,]-fao.yields[b,])>0.4*max(fao.yields[b,],na.rm=T))
 index.far<-which(best_yields[b,]/fao.yields[b,]>2 &fao.yields[b,]!=0 & best_yields[b,]!=0 )
 index.far<-c(index.far,which(best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & best_yields[b,]!=0))
-#index.big<-which(circle.radius>=0.5*mean(circle.radius[which(circle.radius!=0)]))
-#index.put<-intersect(index.far,index.big)
-index.put<-index.far
+index.big<-which(circle.radius>=0.7*mean(circle.radius[which(circle.radius!=0)]))
+index.put<-intersect(index.far,index.big)
+#index.put<-index.far
 
+#all out areas
+#   if(length(index.put)!=0){
+#       text(fao.yields[b,index.put],best_yields[b,index.put]-(-0.1)*(max(best_yields[b,],na.rm=T)),
+#            selectcountryname[index.put] , cex=1)
+#   }
+
+#all big, out areas
   if(length(index.put)!=0){
-      text(fao.yields[b,index.put],best_yields[b,index.put]-0*(max(best_yields[b,],na.rm=T)),
-           selectcountryname[index.put] , cex=.6)
+      text(fao.yields[b,index.put],best_yields[b,index.put]-(-0.1)*(max(best_yields[b,],na.rm=T)),
+           selectcountryname[index.put] , cex=1)
   }
 
-
-
+# #big areas in or out
+#   if(length(index.big)!=0){
+#       text(fao.yields[b,index.big],best_yields[b,index.big]-(-0.1)*(max(best_yields[b,],na.rm=T)),
+#            selectcountryname[index.big] , cex=1)
+#   }
+  
 #   legend("bottomright",legend=c("acceptable","strong overestimation (>200%)","underestimation (<50%)","no yields"),col=c("green","blue","red","orange"),pch=1,pt.lwd=1,pt.cex=1,cex=0.7)
   o<-fao.yields[b,!is.na(fao.yields[b,])]
   p<-best_yields[b,!is.na(fao.yields[b,])]

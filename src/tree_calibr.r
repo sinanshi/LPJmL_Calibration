@@ -11,7 +11,7 @@ BAND_ALL<-c(BAND_RAINF,BAND_IRRG )
 
 BAND_EXAM<-list()
 BAND_EXAM$lpj<-c(18:23)
-BAND_EXAM$fao<-c(14:19)
+BAND_EXAM$fao<-c(14:19) #orange is index 14 if you remove NAs in between, see init.r
 RUN<-11
 
 

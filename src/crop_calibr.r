@@ -1,6 +1,13 @@
 
 RUN<-7
 
+BAND_RAINF<-c(1:13)
+BAND_IRRG<-c(27:39)
+BAND_ALL<-c(BAND_RAINF,BAND_IRRG )
+
+BAND_EXAM<-list()
+BAND_EXAM$lpj<-c(1:13)
+BAND_EXAM$fao<-c(1:13)
 
 source(paste(src.path,"readFAO.r",sep=""))
 source(paste(src.path,"selectCountry.r",sep=""))

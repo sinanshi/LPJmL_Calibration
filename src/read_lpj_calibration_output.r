@@ -12,12 +12,13 @@ for( r in 1:RUN){
 				    nbands=nbands, startyear=startyear,
 				    year=year, band=b,
 				    par= 1/0.45*0.01*FRESHMATTER[b])
+		print("pft_harvest done")
 		cft_frac_r<-read.output.harvest(
 			filename=paste(dir,"cftfrac",r, ".bin",sep=""),
 				 ncells=ncells,
 				 nbands=nbands, startyear=startyear,			
 				 year=year,band=b)
-		
+		print("cft frac done")
 
 		if(!NOIRRIG){
 			pft_harvest_i<-read.output.harvest(
