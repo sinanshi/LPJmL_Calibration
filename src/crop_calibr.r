@@ -40,7 +40,6 @@ lpj.yields<-readCalibOutput(dir=lpjoutput.path,
 		RUN)
 
 
-
 lpj.yields<-lpj.yields[BAND_EXAM$lpj,,]
 fao.yields<-fao.yields[BAND_EXAM$fao,]
 
@@ -73,13 +72,15 @@ for(c in 1:length(country.selected)){
 }
 
 
-
 #create laimax table, like treedens
 
+#treedens<-t(array(c(RUN,length(BAND_EXAM$lpj)),c(1:RUN)))
+#treedens<-t(array(c(1:RUN),c(RUN,length(BAND_EXAM$lpj))))
 
-treedens<-t(array(c(1:RUN),c(RUN,length(BAND_EXAM$lpj))))
-	
-	
+#treedens<-array(dim=c(RUN,length(BAND_EXAM$lpj)))
+
+treedens<-array(c(1:7),c(11,100))
+
 	
 #write tree density table
 #treedens<-read.csv(paste(src.path,"tree_dens.csv",sep=""),sep="\t",header=F)

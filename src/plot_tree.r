@@ -32,6 +32,8 @@ lpj.area<-rowMeans(lpj.area,dims=2)
 
 
 for(b in 1:length(BAND_EXAM$lpj)){
+	print("BBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+	print(b)
 	mv<-array(NA, length(cow))
 	mv.fao<-array(NA, length(cow))
 	mv.kest<-array(NA, length(cow))
@@ -70,12 +72,11 @@ for(b in 1:length(BAND_EXAM$lpj)){
    onetoone<-vector()
    onetoone[1] <- min(best_yields[b,],fao.yields[b,],na.rm=T)
    onetoone[2] <- max(best_yields[b,],fao.yields[b,],na.rm=T)
-   tit <- cropnames[BAND_EXAM$lpj[b]]
+   tit <- cropnames2[BAND_EXAM$lpj[b]]
    #plot(fao.yields[b,],reg.yield,main="",xlab="",
    #     ylab="",col="green",pch=3,lwd=0.8)
    title(main=tit,xlab=list("FAO yields [t FM/ha]"),ylab=list("LPJmL yields [t FM/ha]"),line=1.7)
    axis(2, mgp=c(3, .5, 0))#adjust the y axis label slightly right
-
   
   
   
@@ -109,13 +110,6 @@ index.big<-which(circle.radius>=0.7*mean(circle.radius[which(circle.radius!=0)])
 index.put<-intersect(index.far,index.big)
 #index.put<-index.far
 
-#all out areas
-#   if(length(index.put)!=0){
-#       text(fao.yields[b,index.put],best_yields[b,index.put]-(-0.1)*(max(best_yields[b,],na.rm=T)),
-#            selectcountryname[index.put] , cex=1)
-#   }
-
-#all big, out areas
   if(length(index.put)!=0){
       text(fao.yields[b,index.put],best_yields[b,index.put]-(-0.1)*(max(best_yields[b,],na.rm=T)),
            selectcountryname[index.put] , cex=1)
@@ -133,10 +127,10 @@ index.put<-intersect(index.far,index.big)
   o<-o[ p!=0]
   p<-p[p!=0]
   
-  wiltext <- sprintf("Willmott: %g",round(Willmott(o,p),2))
-  eftext <- sprintf("EF: %g",round(EF(o,p),2))
-  mtext(paste(wiltext,eftext,sep="                      "),side=3)
-
+  wiltext <- sprintf("Willmott: %g",round(Willmott(o,p),1))
+  #eftext <- sprintf("EF: %g",round(EF(o,p),2))
+  #mtext(paste(wiltext,eftext,sep="                      "),side=3)
+  mtext(wiltext,side=3)
 
 
  lines(onetoone,onetoone,lwd=1)
@@ -173,5 +167,7 @@ index.put<-intersect(index.far,index.big)
              legend.line=0,legend.shrink=0.7,lwd=0.1,smallplot=c(.87,.89,0.04,.85))
   close.screen( all=TRUE)
   dev.off()
-  }
+
+
+}
 

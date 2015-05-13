@@ -1,6 +1,9 @@
+rm(list=ls(all=TRUE))
+gc()
 library(fields)
 
 #source("/home/mfader/_R/LPJmL_Calibration/src/init.r")
+#setwd("/home/mfader/_R/LPJmL_Calibration/")
 
 #setting working directory
 wkdir<-paste(getwd(),"/",sep="")
@@ -51,6 +54,11 @@ cropnames <-c("Temp_Cereals","Rice","Maize","Trop_Cereals","Pulses","Temp_Roots"
 	   "Others","Man_Grasslands","Bioen_Grass","Bioen_Tree","Citrus","Orchards",
 	   "Date_Palm","Olives","Nuts_Trees","Grapes","Vegetables","Cotton","Fodder_grass")
 
+cropnames2 <-c("Temp. Cereals","Rice","Maize","Trop. Cereals","Pulses","Temp. Roots",
+	   "Potatoes","Trop. Roots","Sunflower","Soybeans","Groundnuts","Rapeseed","Su. Cane",
+	   "Others","Man. Grasslands","Bioen. Grass","Bioen. Tree","Citrus","Orchards",
+	   "Date Palm","Olives","Nut Trees","Grapes","Vegetables","Cotton","Fodder grass")
+	   
 FAO_Item<-c("Wheat", "Rice, paddy", "Maize", "Millet","Peas, dry", "Sugar beet", "Potatoes", "Cassava",
 	  "Sunflower seed","Soybeans", "Groundnuts, with shell","Rapeseed", "Sugar cane", NA,NA,NA,NA,
 	  "Oranges","Apples","Dates","Olives","Almonds, with shell", "Grapes", NA, NA, NA)
