@@ -124,13 +124,13 @@ points(fao.yields[b,best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & bes
 
   screen(ind[2])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
-  image(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
-	     col=col.yields,ylim=c(19,51),axes=F)
+  image(x=Longitude,y=Latitude,map.build(as.numeric(treedens[mv.kest,(b+1)])),
+	     col=col.yields,ylim=c(19,51),zlim=c(1,7),axes=F)
   box()
   plot(country_border,add=T)
   title("LPJmL best LAIMAX")
-  image.plot(x=Longitude,y=Latitude,z=map.build(as.numeric(treedens[mv.kest,(b+1)])),
-	     col=col.yields,ylim=c(19,51),axes=F,legend.only=T,horizontal=F,smallplot=c(.87,.89,0.04,.85))
+  image.plot(x=Longitude,y=Latitude,map.build(as.numeric(treedens[mv.kest,(b+1)])),col=col.yields,ylim=c(19,51),
+    zlim=c(1,7), axes=F,legend.only=T,horizontal=F,smallplot=c(.87,.89,0.04,.85))
   
   screen(ind2[1])
   par(mar=c(0,2,2,3),cex=0.9,lwd=0.5)
