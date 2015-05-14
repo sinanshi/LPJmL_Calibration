@@ -75,15 +75,12 @@ filename <- paste(plot.path,"lpjmlcalib_vs_fao_all_",cropnames[BAND_EXAM$lpj[b]]
 
   
   circle.radius<-lpj.area[b,]/max(lpj.area[b,])*max(fao.yields[b,],na.rm=T)/5
- #   circle.radius <- (region.total.croparea[,band]/max(region.total.croparea[,band])*max(fao.yields[b,])/5)
   circle.radius[is.infinite(circle.radius)] <- NA
   circle.radius[circle.radius<=0] <- NA
+  circle.radius[best_yields[b,]==0]<-NA # remove circles where lpj_yields = 0
   symbols(fao.yields[b,],best_yields[b,],circles=circle.radius,add=T,cex=0.5,inches=F)
 points(fao.yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],best_yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],
        col="green", pch=3, lwd=0.8)
-points(fao.yields[b,(best_yields[b,]>fao.yields[b,] & fao.yields[b,]!=0 & best_yields[b,]!=0)],
-       best_yields[b,best_yields[b,]>fao.yields[b,] & fao.yields[b,]!=0 & best_yields[b,]!=0],
-       col="green",pch=3,lwd=0.8)
 points(fao.yields[b,best_yields[b,]/fao.yields[b,]>2 & fao.yields[b,]!=0 & best_yields[b,]!=0],
        best_yields[b,best_yields[b,]/fao.yields[b,]>2 & fao.yields[b,]!=0 & best_yields[b,]!=0],
        col="blue",pch=3,lwd=0.8)

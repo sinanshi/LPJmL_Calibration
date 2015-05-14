@@ -178,10 +178,12 @@ N <- function (o, p) {
   length(o)
 }
 Willmott <- function (o, p) {
-  N(o, p)
-#   willmott <- 1 - sum((p - o)^2) / sum((abs(p - mean(o)) + abs(o - mean(o)))^2)
-   willmott <- 1 - sum(abs(p - o)) / sum((abs(p - mean(o)) + abs(o - mean(o))))
-  willmott
+    N(o, p)
+    # willmott et al.  1980
+    #willmott <- 1 - sum((p - o)^2) / sum((abs(p - mean(o)) + abs(o - mean(o)))^2)
+    #willmott et al. 1985 
+    willmott <- 1 - sum(abs(p - o)) / sum((abs(p - mean(o)) + abs(o - mean(o))))
+    willmott
 }
 EF <- function (o, p) {
   N(o, p)

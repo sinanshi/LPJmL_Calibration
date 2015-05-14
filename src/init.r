@@ -26,8 +26,6 @@ result.path<-paste(wkdir,"results/",sep="")
 ncell <- 5794#67420 # no of cells recorded in file
 ncell.in <- 5794#67420
 res <- .5 # resolution in degrees
-#baseyear <- 1901 #first year recorded in lpj output file
-baseyear <- 1961 #first year recorded in lpj output file
 startyear1 <- 2000 #first year to evaluate 
 endyear1 <- 2009 #last year to evaluate 2009
 fao.years <- c(2000:2009)#chose the years for fao data(Notice, the total years of FAO data is from 1961-2012)

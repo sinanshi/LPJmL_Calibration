@@ -5,6 +5,8 @@ source(paste(src.path,"read_lpj_calibration_output.r",sep=""))
 
 
 
+baseyear <- 1901 #first year recorded in lpj output file
+
 BAND_RAINF<-c(18:26)
 BAND_IRRG<-c(44:52)
 BAND_ALL<-c(BAND_RAINF,BAND_IRRG )

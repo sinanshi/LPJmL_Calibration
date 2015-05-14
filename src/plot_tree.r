@@ -84,23 +84,22 @@ for(b in 1:length(BAND_EXAM$lpj)){
 
   
   circle.radius<-lpj.area[b,]/max(lpj.area[b,])*max(fao.yields[b,],na.rm=T)/5
- #   circle.radius <- (region.total.croparea[,band]/max(region.total.croparea[,band])*max(fao.yields[b,])/5)
   circle.radius[is.infinite(circle.radius)] <- NA
   circle.radius[circle.radius<=0] <- NA
+  circle.radius[best_yields[b,]==0]<-NA # remove circles where lpj_yields = 0
   symbols(fao.yields[b,],best_yields[b,],circles=circle.radius,add=T,cex=0.5,inches=F)
-points(fao.yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],best_yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],
-  col="green", pch=3, lwd=0.8)
-points(fao.yields[b,(best_yields[b,]>fao.yields[b,] & fao.yields[b,]!=0 & best_yields[b,]!=0)],
-  best_yields[b,best_yields[b,]>fao.yields[b,] & fao.yields[b,]!=0 & best_yields[b,]!=0],
-       col="green",pch=3,lwd=0.8)
-points(fao.yields[b,best_yields[b,]/fao.yields[b,]>2 & fao.yields[b,]!=0 & best_yields[b,]!=0],
+  
+  
+  points(fao.yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],best_yields[b,fao.yields[b,]!=0 & best_yields[b,]!=0],col="green", pch=3, lwd=0.8)
+  
+  
+  points(fao.yields[b,best_yields[b,]/fao.yields[b,]>2 & fao.yields[b,]!=0 & best_yields[b,]!=0],
   best_yields[b,best_yields[b,]/fao.yields[b,]>2 & fao.yields[b,]!=0 & best_yields[b,]!=0],
        col="blue",pch=3,lwd=0.8)
-points(fao.yields[b,best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & best_yields[b,]!=0],
+  
+  points(fao.yields[b,best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & best_yields[b,]!=0],
   best_yields[b,best_yields[b,]/fao.yields[b,]<0.5 & fao.yields[b,]!=0 & best_yields[b,]!=0],
        col="red",pch=3,lwd=0.8)
-#points(fao.yields[b,best_yields[b,]==0],best_yields[b,best_yields[b,]==0],
-#       col="white",pch=3,lwd=0.8)
 
 #put text to all the countries that are too far
 #index.far<-which(abs(best_yields[b,]-fao.yields[b,])>0.4*max(fao.yields[b,],na.rm=T))
@@ -134,7 +133,6 @@ index.put<-intersect(index.far,index.big)
 
 
  lines(onetoone,onetoone,lwd=1)
-
 
 
   screen(ind[2])
