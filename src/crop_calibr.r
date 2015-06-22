@@ -1,4 +1,5 @@
 
+baseyear <- 1961 #first year recorded in lpj output file
 RUN<-7
 
 BAND_RAINF<-c(1:13)
